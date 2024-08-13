@@ -8,6 +8,10 @@ output "prod-desqk-vpc-id" {
     value = aws_vpc.prod-desqk-us-west-2-vpc.id
 }
 
+output "prod-desqk-vps-public-subnets" {
+    value = aws_subnet.prod-desqk-public-subnets.*.id
+}
+
 # Setup VPC
 resource "aws_vpc" "prod-desqk-us-west-2-vpc" {
     cidr_block = var.vpc_cidr

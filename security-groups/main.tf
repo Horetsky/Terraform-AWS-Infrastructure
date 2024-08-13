@@ -1,6 +1,10 @@
 variable "vpc_id" {}
 variable "ec2_sg_name" {}
 
+output "prod-desqk-es2-sg" {
+    value = aws_security_group.prod-desqk-es2-sg.id
+}
+
 resource "aws_security_group" "prod-desqk-es2-sg" {
     vpc_id      = var.vpc_id
     name        = var.ec2_sg_name
