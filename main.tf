@@ -6,3 +6,9 @@ module "networking" {
     cidr_private_subnet  = var.cidr_private_subnet
     us_availability_zone = var.us_availability_zone
 }
+
+module "security-groups" {
+    source = "./security-groups"
+    vpc_id = module.networking.prod-desqk-vpc-id
+    ec2_sg_name = "SG for EC2 to enable SSH(22), HTTPS(443) and HTTP(80)"
+}
