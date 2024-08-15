@@ -4,6 +4,11 @@ variable "subnet_ids" {}
 variable "instance_type" {}
 variable "security_groups" {}
 
+
+output "prod-desqk-es2-instance-id" {
+  value = aws_instance.prod-desqk-es2-instance.id
+}
+
 resource "aws_instance" "prod-desqk-es2-instance" {
   ami                         = var.ami_id
   instance_type               = var.instance_type
@@ -12,7 +17,7 @@ resource "aws_instance" "prod-desqk-es2-instance" {
   associate_public_ip_address = true
   key_name                    = "prod-desqk-server-key"
 
-  user_data = templatefile("./computing/user-data/init.sh", {})
+  user_data = file("${path.module}/user-data.tpl")
 
   tags = {
     Name = "Desqk Prod Server"
@@ -24,7 +29,7 @@ resource "aws_instance" "prod-desqk-es2-instance" {
   }
 }
 
-resource "aws_key_pair" "jenkins_ec2_instance_public_key" {
+resource "aws_key_pair" "prod-desqk-public-key" {
   key_name   = "prod-desqk-server-key"
   public_key = var.public_key
 }
