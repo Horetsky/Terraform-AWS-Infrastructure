@@ -16,7 +16,7 @@ module "security-groups" {
 module "computing" {
   source          = "./computing"
   ami_id          = var.ec2_aim
-  instance_type   = "t3.nano"
+  instance_type   = "t3.micro"
   public_key      = var.ssh_public_key
   subnet_ids      = tolist(module.networking.prod-desqk-vps-public-subnets)[0]
   security_groups = [module.security-groups.prod-desqk-es2-sg]
