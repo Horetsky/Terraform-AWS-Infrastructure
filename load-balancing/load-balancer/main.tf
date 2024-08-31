@@ -5,20 +5,20 @@ variable "subnet_ids" {}
 variable "security_groups" {}
 variable "lb_target_group_arn" {}
 
-variable "lb_listener_port" {}
-variable "lb_listener_protocol" {}
-variable "lb_listener_default_action" {}
+variable "prod_desqk_acm_arn" {}
+variable "lb_listener_default_action" { default = "forward" }
 
-# variable "lb_https_listener_port" {}
-# variable "lb_https_listener_protocol" {}
-# variable "dev_proj_1_acm_arn" {}
+variable "lb_http_listener_port" { default = 80 }
+variable "lb_http_listener_protocol" { default = "HTTP" }
+variable "lb_https_listener_port" { default = 443 }
+variable "lb_https_listener_protocol" { default = "HTTPS" }
 
 resource "aws_lb" "prod-desqk-lb" {
   name               = var.lb_name
   internal           = false
   load_balancer_type = var.lb_type
   security_groups    = var.security_groups
-  subnets            = var.subnet_ids # Replace with your subnet IDs
+  subnets            = var.subnet_ids
 
   enable_deletion_protection = false
 
@@ -29,25 +29,30 @@ resource "aws_lb" "prod-desqk-lb" {
 
 resource "aws_lb_listener" "prod-desqk-lb-http-listener" {
   load_balancer_arn = aws_lb.prod-desqk-lb.arn
-  port              = var.lb_listener_port
-  protocol          = var.lb_listener_protocol
+  port              = var.lb_http_listener_port
+  protocol          = var.lb_http_listener_protocol
 
   default_action {
-    type             = var.lb_listener_default_action
-    target_group_arn = var.lb_target_group_arn
+      type = "redirect"
+
+      redirect {
+          port        = "443"
+          protocol    = "HTTPS"
+          status_code = "HTTP_301"
+      }
   }
 }
 
-# https listener on port 443
-# resource "aws_lb_listener" "prod-desqk-lb-https-listener" {
-#     load_balancer_arn = aws_lb.prod-desqk-lb.arn
-#     port              = var.lb_https_listener_port
-#     protocol          = var.lb_https_listener_protocol
-#     ssl_policy        = "ELBSecurityPolicy-FS-1-2-Res-2019-08"
-#     certificate_arn   = var.dev_proj_1_acm_arn
-#
-#     default_action {
-#         type             = var.lb_listener_default_action
-#         target_group_arn = var.lb_target_group_arn
-#     }
-# }
+# HTTPS listener
+resource "aws_lb_listener" "prod-desqk-lb-https-listener" {
+    load_balancer_arn = aws_lb.prod-desqk-lb.arn
+    port              = var.lb_https_listener_port
+    protocol          = var.lb_https_listener_protocol
+    ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+    certificate_arn   = var.prod_desqk_acm_arn
+
+    default_action {
+        type             = var.lb_listener_default_action
+        target_group_arn = var.lb_target_group_arn
+    }
+}

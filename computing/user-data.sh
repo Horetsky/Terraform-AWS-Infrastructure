@@ -22,7 +22,7 @@ sudo unzip awscliv2.zip
 sudo ./aws/install
 
 # Install certbot
-sudo apt-get install -y certbot python3-certbot-nginx
+#sudo apt-get install -y certbot python3-certbot-nginx
 #sudo certbot --nginx
 
 # Install CodeBuild Agent
