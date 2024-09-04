@@ -13,6 +13,14 @@ variable "lb_http_listener_protocol" { default = "HTTP" }
 variable "lb_https_listener_port" { default = 443 }
 variable "lb_https_listener_protocol" { default = "HTTPS" }
 
+output "alb_dns_name" {
+    value = aws_lb.prod-desqk-lb.dns_name
+}
+
+output "alb_zone_id" {
+    value = aws_lb.prod-desqk-lb.zone_id
+}
+
 resource "aws_lb" "prod-desqk-lb" {
   name               = var.lb_name
   internal           = false

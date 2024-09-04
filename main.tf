@@ -29,3 +29,9 @@ module "computing" {
   security_groups = [module.security-groups.prod-desqk-es2-sg]
   target-group-arns = [module.load-balancing.target_group_arn]
 }
+
+module "hosted-zone" {
+  source = "./hosted-zone"
+  alb_dns_name = module.load-balancing.alb_dns_name
+  alb_zone_id = module.load-balancing.alb_zone_id
+}

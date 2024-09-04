@@ -7,6 +7,14 @@ output "target_group_arn" {
   value = module.balancing-target-group.prod-desqk-lb-target-group-arn
 }
 
+output "alb_dns_name" {
+  value = module.balancing-load-balancer.alb_dns_name
+}
+
+output "alb_zone_id" {
+  value = module.balancing-load-balancer.alb_zone_id
+}
+
 data "aws_acm_certificate" "prod-desqk-https-certificate" {
   domain   = "api.demo.desqk.com"
   statuses = ["ISSUED"]
