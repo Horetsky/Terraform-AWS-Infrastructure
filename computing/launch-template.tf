@@ -5,6 +5,13 @@ resource "aws_launch_template" "prod-desqk-lt" {
 
     key_name               = aws_key_pair.prod-desqk-public-key.key_name
 
+    block_device_mappings {
+        device_name = "/dev/sda1"
+        ebs {
+            volume_size = 16
+        }
+    }
+
     network_interfaces {
         associate_public_ip_address = true
         delete_on_termination       = true
