@@ -22,11 +22,9 @@ resource "aws_lb_target_group" "prod-desqk-lb-target-group" {
     interval            = 5
     matcher             = "200"
   }
-}
 
-# resource "aws_lb_target_group_attachment" "prod-desqk-target-group-attachment" {
-#   count            = length(var.ec2_instance_ids)
-#   target_group_arn = aws_lb_target_group.prod-desqk-lb-target-group.arn
-#   target_id        = var.ec2_instance_ids
-#   port             = 80
-# }
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 86400  # Тривалість дії cookie в секундах (1 день)
+  }
+}

@@ -5,6 +5,9 @@ variable "subnet_ids" {}
 variable "security_groups" {}
 variable "target-group-arns" {}
 
+variable "desired_size" {}
+variable "max_size" {}
+variable "min_size" {}
 
 data "aws_iam_role" "code-deploy-role" {
   name = "code-deploy-ec2-role"
@@ -23,9 +26,9 @@ resource "aws_key_pair" "prod-desqk-public-key" {
 module "autoscaling" {
   source = "./autoscaling"
   launch_template_id = aws_launch_template.prod-desqk-lt.id
-  desired_size = 2
-  max_size = 2
-  min_size = 2
+  desired_size = var.desired_size
+  max_size = var.max_size
+  min_size = var.min_size
   subnet_ids = var.subnet_ids
   target_group_arns = var.target-group-arns
 }

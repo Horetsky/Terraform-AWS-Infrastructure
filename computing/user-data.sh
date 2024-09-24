@@ -21,15 +21,14 @@ sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv
 sudo unzip awscliv2.zip
 sudo ./aws/install
 
-# Install certbot
-#sudo apt-get install -y certbot python3-certbot-nginx
-#sudo certbot --nginx
-
 # Install CodeBuild Agent
 sudo apt install -y ruby-full
-sudo apt install wget
+sudo apt install -y wget
 wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
 chmod +x ./install &&
 sudo ./install auto
 sudo service codedeploy-agent start
 sudo systemctl enable codedeploy-agent
+
+# Pull environment variables
+sudo aws s3 cp s3://prod-desqk-env /var/www --recursive

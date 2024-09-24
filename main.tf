@@ -23,7 +23,12 @@ module "load-balancing" {
 module "computing" {
   source          = "./computing"
   ami_id          = var.ec2_aim
-  instance_type   = "t3.micro"
+
+  instance_type   = "t3.small"
+  desired_size = 2
+  max_size = 4
+  min_size = 2
+
   public_key      = var.ssh_public_key
   subnet_ids      = tolist(module.networking.prod-desqk-vps-public-subnets)
   security_groups = [module.security-groups.prod-desqk-es2-sg]

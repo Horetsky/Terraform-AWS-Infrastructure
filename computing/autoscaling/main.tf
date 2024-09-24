@@ -7,8 +7,8 @@ variable "desired_size" {}
 variable "max_size" {}
 variable "min_size" {}
 
-variable "scale_up_threshold" { default = "60" }
-variable "scale_down_threshold" { default = "5" }
+variable "scale_up_threshold" { default = "30" }
+variable "scale_down_threshold" { default = "15" }
 
 resource "aws_autoscaling_group" "prod-desqk-asg" {
     vpc_zone_identifier = var.subnet_ids

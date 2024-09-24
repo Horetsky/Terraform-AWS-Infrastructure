@@ -7,7 +7,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_up_alarm" {
     evaluation_periods  = "2"
     metric_name         = "CPUUtilization"
     namespace           = "AWS/EC2"
-    period              = "120"
+    period              = "10"
     statistic           = "Average"
     threshold           = var.scale_up_threshold # New instance will be created once CPU utilization is higher than 30 %
     dimensions = {
